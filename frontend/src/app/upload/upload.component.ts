@@ -1,15 +1,17 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-upload',
   standalone: true,
-  imports: [HttpClientModule],
+  imports: [HttpClientModule, CommonModule],
   templateUrl: './upload.component.html',
   styleUrls: ['./upload.component.css'] // Corrected from styleUrl to styleUrls
 })
 export class UploadComponent {
   private selectedFile: File | null = null;
+  gifUrl: string | null = null;
 
   constructor(private http: HttpClient) { }
 
@@ -26,6 +28,9 @@ export class UploadComponent {
         .subscribe(response => {
           const url = window.URL.createObjectURL(response);
           const a = document.createElement('a');
+
+          this.gifUrl = url;
+
           a.href = url;
           a.download = 'output.gif';
           document.body.appendChild(a);

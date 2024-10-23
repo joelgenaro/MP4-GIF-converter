@@ -1,11 +1,11 @@
-FROM node:14
+FROM node:18
 
 WORKDIR /app
 
-COPY server/package*.json ./
+COPY package*.json ./
 RUN npm install
 
-COPY server/ ./
+COPY . .
 
 EXPOSE 3000
 

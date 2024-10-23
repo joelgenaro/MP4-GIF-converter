@@ -1,2 +1,5 @@
 <input type="file" (change)="onFileSelected($event)" accept="video/mp4" />
 <button (click)="onUpload()">Convert</button>
+<div class="convertedGif">
+  <img *ngIf="gifUrl" [src]="gifUrl" alt="Converted GIF" />
+</div>
