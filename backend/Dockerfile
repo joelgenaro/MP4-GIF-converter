@@ -1,12 +1,7 @@
-FROM node:18
-
+# Dockerfile for Express
+FROM node:14-alpine
 WORKDIR /app
-
-COPY package*.json ./
-RUN npm install
-
 COPY . .
-
-EXPOSE 3000
-
+RUN npm install
+RUN apk add --no-cache ffmpeg
 CMD ["node", "index.js"]

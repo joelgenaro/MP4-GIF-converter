@@ -1,19 +1,13 @@
 version: '3.8'
-
 services:
   web:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    build: ./frontend
     ports:
       - "80:80"
     deploy:
       replicas: 1
-
   api:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    build: ./backend
     ports:
       - "3000:3000"
     deploy:
