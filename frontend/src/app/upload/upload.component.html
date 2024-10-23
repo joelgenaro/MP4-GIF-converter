@@ -3,3 +3,5 @@
 <div class="convertedGif">
   <img *ngIf="gifUrl" [src]="gifUrl" alt="Converted GIF" />
 </div>
+<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
+<video #videoElement style="display: none"></video>
