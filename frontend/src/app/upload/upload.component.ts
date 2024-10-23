@@ -7,7 +7,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
   standalone: true,
   imports: [HttpClientModule, CommonModule],
   templateUrl: './upload.component.html',
-  styleUrls: ['./upload.component.css'] // Corrected from styleUrl to styleUrls
+  styleUrls: ['./upload.component.css']
 })
 export class UploadComponent {
   private selectedFile: File | null = null;

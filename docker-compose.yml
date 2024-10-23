@@ -1,13 +1,13 @@
 version: '3.8'
 services:
   web:
-    build: ./frontend
+    image: mp4-to-gif-frontend
     ports:
-      - "80:80"
+      - "8080:80"
     deploy:
       replicas: 1
   api:
-    build: ./backend
+    image: mp4-to-gif-backend
     ports:
       - "3000:3000"
     deploy:

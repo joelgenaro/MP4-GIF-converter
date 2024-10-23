@@ -1,7 +1,7 @@
 describe("Load Test for /convert API", () => {
   it("should handle 100 requests per minute", () => {
     const requests = [];
-    const filePath = "test.mp4"; // Replace with the path to your test video file
+    const filePath = "test.mp4";
 
     for (let i = 0; i < 100; i++) {
       requests.push(
