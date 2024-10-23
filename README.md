@@ -4,6 +4,8 @@
 
 - My email is joel.ggdev@gmail.com
 
+- USDT TRC20 address: ``` TSfJ4xxtuDDWouXsZnxW3JdX8Q3YwNajby ```
+
 - Video:
 
   
