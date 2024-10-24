@@ -52,6 +52,36 @@ docker-compose up -d
 
 3. Access the application at `http://your-domain.com`
 
+## Cypress Load Test
+
+1. Ensure the backend server is running
+```
+cd backend
+node index.js
+node worker.js
+```
+2. Run the Cypress load test:
+```
+npx cypress run --spec cypress/integration/spec.cy.js
+```
+
+## Docker Swarm Deployment
+
+1. Initialize Docker Swarm (if not already initialized)
+```
+docker swarm init
+```
+2. Deploy the stack:
+```
+docker stack deploy -c docker-compose.yml mp4-to-gif
+```
+3. Verify the services
+```
+docker service ls
+```
+
+## Contact 
+
 - My email:
 
 ```
