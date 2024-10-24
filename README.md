@@ -2,13 +2,16 @@
 
 ## Local Development
 
-1. Clone the repository:
+1. Clone the repository
    ```
    git clone https://github.com/joelgenaro/Tom-Renneberg.git
    ```
-2. Install dependencies:
+2. Install dependencies for both frontend and backend
 
 ```
+cd backend
+npm install
+cd ../frontend
 npm install
 ```
 
