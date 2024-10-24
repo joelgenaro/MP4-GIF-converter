@@ -33,6 +33,7 @@ export class UploadComponent {
             this.message = null;
             this.message = response.message;
             this.gifUrl = `${environment.apiUrl}${response.outputFilePath}`;
+            this.selectedFile = null;
           },
           error: error => {
             this.message = "An error occurred while converting the video.";
