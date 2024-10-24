@@ -2,7 +2,10 @@
 
 - I'm available at any time you want for the technical interview
 
-- My email is joel.ggdev@gmail.com
+- My email:
+```
+joel.ggdev@gmail.com
+```
 
 - USDT TRC20 address:
 ```
