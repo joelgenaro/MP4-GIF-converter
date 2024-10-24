@@ -13,21 +13,13 @@ import { environment } from '../../environments/environment';
 export class UploadComponent {
   private selectedFile: File | null = null;
   gifUrl: string | null = null;
-  errorMessage: string | null = null;
-
-  @ViewChild('videoElement', { static: false })
-  videoElement!: ElementRef<HTMLVideoElement>;
+  message: string | null = null;
 
   constructor(private http: HttpClient) { }
 
   onFileSelected(event: any) {
     this.selectedFile = event.target.files[0];
-    this.errorMessage = null;
-
-    if (this.selectedFile) {
-      const video = this.videoElement.nativeElement;
-      video.src = URL.createObjectURL(this.selectedFile);
-    }
+    this.message = null;
   }
 
   onUpload() {
@@ -38,11 +30,17 @@ export class UploadComponent {
       this.http.post<{ message: string, outputFilePath: string }>(`${environment.apiUrl}/convert`, formData)
         .subscribe({
           next: response => {
-            this.errorMessage = null;
+            this.message = null;
+            this.message = response.message;
             this.gifUrl = `${environment.apiUrl}${response.outputFilePath}`;
+
+            const link = document.createElement('a');
+            link.href = this.gifUrl;
+            link.download = 'converted.gif';
+            link.click();
           },
           error: error => {
-            this.errorMessage = "An error occurred while converting the video.";
+            this.message = "An error occurred while converting the video.";
           }
         });
     } else {

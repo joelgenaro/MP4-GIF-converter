@@ -1,7 +1,7 @@
-<input type="file" (change)="onFileSelected($event)" accept="video/mp4" />
-<button (click)="onUpload()">Convert</button>
-<div class="convertedGif">
-  <a *ngIf="gifUrl" [href]="gifUrl" download="converted.gif">Download GIF</a>
+<div class="upload-container">
+  <input type="file" (change)="onFileSelected($event)" accept="video/mp4" />
+  <button (click)="onUpload()">Convert</button>
+  <div *ngIf="message" class="error">
+    {{ message }}
+  </div>
 </div>
-<div *ngIf="errorMessage" class="error">{{ errorMessage }}</div>
-<video #videoElement style="display: none"></video>

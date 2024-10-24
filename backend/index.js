@@ -76,7 +76,7 @@ app.post("/convert", upload.single("video"), (req, res) => {
     videoQueue.add({ inputFilePath, outputFilePath });
 
     const response = plainToClass(VideoResponse, {
-      message: "Video is being processed.",
+      message: "Video processing completed.",
       outputFilePath: `/output/${path.relative(outputDir, outputFilePath)}`,
     });
 
