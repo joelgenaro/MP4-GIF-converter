@@ -15,21 +15,24 @@ cd ../frontend
 npm install
 ```
 
-3. Start the server in the backend folder
+3. Start the backend server
 
 ```
+cd backend
 node index.js
 ```
 
-4. Start the worker in the backend folder
+4. Start the worker:
 
 ```
+cd backend
 node worker.js
 ```
 
-5. Start the frontend in the frontend folder
+5. Start the frontend server:
 
 ```
+cd frontend
 npm start
 ```
 
