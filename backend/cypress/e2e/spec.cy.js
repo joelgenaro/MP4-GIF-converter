@@ -27,7 +27,7 @@ describe("Load Test for /convert API", () => {
 
     cy.wrap(Promise.all(requests)).then((responses) => {
       responses.forEach((response) => {
-        expect(response.status).to.eq(200);
+        expect(response.status).to.eq(202);
       });
     });
   });

@@ -26,16 +26,6 @@ export class UploadComponent {
     if (this.selectedFile) {
       const video = this.videoElement.nativeElement;
       video.src = URL.createObjectURL(this.selectedFile);
-
-      video.onloadedmetadata = () => {
-        if (video.videoWidth > 1024 || video.videoHeight > 768) {
-          this.errorMessage = 'Video dimensions should not exceed 1024x768.';
-          this.selectedFile = null;
-        } else if (video.duration > 10) {
-          this.errorMessage = 'Video duration should not exceed 10 seconds.';
-          this.selectedFile = null;
-        }
-      };
     }
   }
 
@@ -44,18 +34,15 @@ export class UploadComponent {
       const formData = new FormData();
       formData.append('video', this.selectedFile);
 
-      this.http.post('http://localhost:3000/convert', formData, { responseType: 'blob' })
-        .subscribe(response => {
-          const url = window.URL.createObjectURL(response);
-          const a = document.createElement('a');
-
-          this.gifUrl = url;
-
-          a.href = url;
-          a.download = 'output.gif';
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
+      this.http.post<{ message: string, outputFilePath: string }>('http://localhost:3000/convert', formData)
+        .subscribe({
+          next: response => {
+            this.errorMessage = null;
+            this.gifUrl = `http://localhost:3000${response.outputFilePath}`;
+          },
+          error: error => {
+            this.errorMessage = "An error occurred while converting the video.";
+          }
         });
     } else {
       alert('No file selected or file does not meet the requirements.');

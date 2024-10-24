@@ -4,12 +4,17 @@ const ffmpeg = require("fluent-ffmpeg");
 const cors = require("cors");
 const path = require("path");
 const fs = require("fs");
+const Bull = require("bull");
+const Redis = require("ioredis");
 
 const app = express();
 const upload = multer({
   dest: "uploads/",
   limits: { fileSize: 10 * 1024 * 1024 },
 });
+
+const redisClient = new Redis();
+const videoQueue = new Bull("video conversion", { redis: redisClient });
 
 app.use(cors());
 app.use("/output", express.static(path.join(__dirname, "output")));
@@ -27,27 +32,31 @@ app.post("/convert", upload.single("video"), (req, res) => {
   const inputFilePath = req.file.path;
   const outputFilePath = path.join(outputDir, `${req.file.filename}.gif`);
 
-  console.log(`Converting file: ${inputFilePath} to ${outputFilePath}`);
+  const video = ffmpeg(inputFilePath);
+  video.ffprobe((err, metadata) => {
+    if (err) {
+      return res.status(500).send("Error processing video.");
+    }
 
-  ffmpeg(inputFilePath)
-    .outputOptions(["-vf", "fps=5,scale=400:-1"])
-    .on("end", () => {
-      console.log(`Conversion complete: ${outputFilePath}`);
-      res.download(outputFilePath, (err) => {
-        if (err) {
-          console.error(`Error sending file: ${err}`);
-          res.status(500).send(err);
-        }
+    const { width, height, duration } = metadata.streams[0];
+    if (width > 1024 || height > 768) {
+      return res
+        .status(400)
+        .send("Video dimensions should not exceed 1024x768.");
+    }
+    if (duration > 10) {
+      return res
+        .status(400)
+        .send("Video duration should not exceed 10 seconds.");
+    }
 
-        fs.unlink(inputFilePath, () => {});
-        fs.unlink(outputFilePath, () => {});
-      });
-    })
-    .on("error", (err) => {
-      console.error(`Conversion error: ${err}`);
-      res.status(500).send(err);
-    })
-    .save(outputFilePath);
+    videoQueue.add({ inputFilePath, outputFilePath });
+
+    res.status(202).json({
+      message: "Video is being processed.",
+      outputFilePath: `/output/${req.file.filename}.gif`,
+    });
+  });
 });
 
 app.listen(3000, () => console.log("Server running on port 3000"));

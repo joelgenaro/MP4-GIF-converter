@@ -7,8 +7,16 @@ services:
     deploy:
       replicas: 1
   api:
-    image: mp4-to-gif-backend
+    build: .
     ports:
       - "3000:3000"
     deploy:
+      replicas: 1
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    deploy:
       replicas: 5
+  redis:
+    image: redis:alpine
