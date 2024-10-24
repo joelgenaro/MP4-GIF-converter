@@ -33,11 +33,6 @@ export class UploadComponent {
             this.message = null;
             this.message = response.message;
             this.gifUrl = `${environment.apiUrl}${response.outputFilePath}`;
-
-            const link = document.createElement('a');
-            link.href = this.gifUrl;
-            link.download = 'converted.gif';
-            link.click();
           },
           error: error => {
             this.message = "An error occurred while converting the video.";
