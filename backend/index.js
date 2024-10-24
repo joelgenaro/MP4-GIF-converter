@@ -8,6 +8,7 @@ const Bull = require("bull");
 const Redis = require("ioredis");
 const { EventEmitter } = require("events");
 const crypto = require("crypto");
+const { plainToClass } = require("class-transformer");
 
 const app = express();
 const upload = multer({
@@ -18,6 +19,13 @@ const upload = multer({
 const redisClient = new Redis();
 const videoQueue = new Bull("video conversion", { redis: redisClient });
 const eventEmitter = new EventEmitter();
+
+class VideoResponse {
+  constructor(message, outputFilePath) {
+    this.message = message;
+    this.outputFilePath = outputFilePath;
+  }
+}
 
 app.use(cors());
 app.use("/output", express.static(path.join(__dirname, "output")));
@@ -67,15 +75,17 @@ app.post("/convert", upload.single("video"), (req, res) => {
 
     videoQueue.add({ inputFilePath, outputFilePath });
 
-    res.status(202).json({
+    const response = plainToClass(VideoResponse, {
       message: "Video is being processed.",
-      outputFilePath: outputFilePath,
+      outputFilePath: `/output/${path.relative(outputDir, outputFilePath)}`,
     });
+
+    res.status(202).json(response);
 
     eventEmitter.once(`job-complete-${req.file.filename}`, () => {
       res.status(200).json({
         message: "Video processing complete.",
-        outputFilePath: outputFilePath,
+        outputFilePath: `/output/${path.relative(outputDir, outputFilePath)}`,
       });
     });
   });

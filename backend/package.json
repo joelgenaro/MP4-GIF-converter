@@ -11,6 +11,7 @@
   "description": "",
   "dependencies": {
     "bull": "^4.16.3",
+    "class-transformer": "^0.5.1",
     "cors": "^2.8.5",
     "express": "^4.21.1",
     "fluent-ffmpeg": "^2.1.3",
