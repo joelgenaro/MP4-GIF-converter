@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-upload',
@@ -34,11 +35,11 @@ export class UploadComponent {
       const formData = new FormData();
       formData.append('video', this.selectedFile);
 
-      this.http.post<{ message: string, outputFilePath: string }>('http://localhost:3000/convert', formData)
+      this.http.post<{ message: string, outputFilePath: string }>(`${environment.apiUrl}/convert`, formData)
         .subscribe({
           next: response => {
             this.errorMessage = null;
-            this.gifUrl = `http://localhost:3000${response.outputFilePath}`;
+            this.gifUrl = `${environment.apiUrl}${response.outputFilePath}`;
           },
           error: error => {
             this.errorMessage = "An error occurred while converting the video.";
