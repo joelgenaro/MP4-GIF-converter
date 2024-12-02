@@ -79,17 +79,3 @@ docker stack deploy -c docker-compose.yml mp4-to-gif
 ```
 docker service ls
 ```
-
-## Contact 
-
-- My email:
-
-```
-joel.ggdev@gmail.com
-```
-
-- USDT TRC20 address:
-
-```
-TSfJ4xxtuDDWouXsZnxW3JdX8Q3YwNajby
-```
